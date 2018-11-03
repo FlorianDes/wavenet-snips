@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# encoding: utf-8
+# coding: utf8
 
 from google.cloud import texttospeech
 import os
@@ -11,7 +11,7 @@ import requests
 
 # path to the google credentials json file
 # https://console.cloud.google.com/apis/credentials/serviceaccountkey
-GOOGLE_CREDS = "CHANGE ME" # 
+GOOGLE_CREDS = "CHANGE ME"
 
 # Temp folder where the wav files will be stored
 TMP_FOLDER = "/tmp/jarvis/"
