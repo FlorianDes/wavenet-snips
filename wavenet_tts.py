@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # coding: utf8
 
-from google.cloud import texttospeech
+from google.cloud import texttospeech_v1beta1 as texttospeech
 import os
 from sys import argv, exit
 from subprocess import call
@@ -59,9 +59,11 @@ def translate(t):
     synthesis_input = texttospeech.types.SynthesisInput(text=t)
     voice = texttospeech.types.VoiceSelectionParams(
         language_code=LANG,
-        ssml_gender=texttospeech.enums.SsmlVoiceGender.FEMALE)
+        name="fr-FR-Wavenet-A")
     audio_config = texttospeech.types.AudioConfig(
-        audio_encoding=texttospeech.enums.AudioEncoding.LINEAR16)
+        audio_encoding=texttospeech.enums.AudioEncoding.LINEAR16,
+        effects_profile_id=["medium-bluetooth-speaker-class-device"],
+        pitch=-2.00)
     response = client.synthesize_speech(synthesis_input, voice, audio_config)
     return response.audio_content
 
