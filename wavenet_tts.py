@@ -3,7 +3,7 @@
 
 from google.cloud import texttospeech
 import os
-from sys import argv
+from sys import argv, exit
 from subprocess import call
 import hashlib
 import locale
@@ -26,7 +26,10 @@ TMP_FOLDER = "/tmp/jarvis/"
 # Player program
 SOUND_PLAYER = "aplay"
 
-text = str(argv[1]).encode('utf-8')
+if len(argv) > 1:
+    text = str(argv[1]).encode('utf-8')
+else:
+    exit()
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = GOOGLE_CREDS
 lang = locale.getdefaultlocale()[0]
