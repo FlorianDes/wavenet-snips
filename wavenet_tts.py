@@ -23,16 +23,15 @@ with open("/etc/snips.toml", 'r') as f:
 # Temp folder where the wav files will be stored
 TMP_FOLDER = "/tmp/jarvis/"
 
-# Player program
-SOUND_PLAYER = "aplay"
+if len(argv) > 2:
+    output = str(argv[1])
 
-if len(argv) > 1:
-    text = str(argv[1]).encode('utf-8')
+    text = str(argv[2]).encode('utf-8')
 else:
     exit()
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = GOOGLE_CREDS
-lang = locale.getdefaultlocale()[0]
+LANG = locale.getdefaultlocale()[0]
 
 # create the cache dir
 if not os.path.isdir(TMP_FOLDER):
@@ -59,7 +58,7 @@ def translate(t):
     # Set the text input to be synthesized
     synthesis_input = texttospeech.types.SynthesisInput(text=t)
     voice = texttospeech.types.VoiceSelectionParams(
-        language_code=lang,
+        language_code=LANG,
         ssml_gender=texttospeech.enums.SsmlVoiceGender.FEMALE)
     audio_config = texttospeech.types.AudioConfig(
         audio_encoding=texttospeech.enums.AudioEncoding.LINEAR16)
@@ -78,13 +77,12 @@ def main():
             resp = translate(text)
             with open(TMP_FOLDER + h + '.wav', 'wb') as out:
                 out.write(resp)
+            with open(output, 'wb') as out:
+                out.write(resp)
         else:
-            call(["pico2wave", "-w", TMP_FOLDER + h + ".wav", "-l", lang.replace('_', '-'), text])
-        call([SOUND_PLAYER, TMP_FOLDER + h + ".wav"])
+            call(["pico2wave", "-w", output, "-l", lang.replace('_', '-'), text])
         if not internet and os.path.isfile(TMP_FOLDER + h + '.wav'):
             os.remove(TMP_FOLDER + h + '.wav')
-    else:
-        call([SOUND_PLAYER, TMP_FOLDER + h + ".wav"])
 
 
 if __name__ == '__main__':
