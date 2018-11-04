@@ -8,10 +8,17 @@ from subprocess import call
 import hashlib
 import locale
 import requests
+import pytoml
 
-# path to the google credentials json file
+# have to set google_creds in snips.toml
 # https://console.cloud.google.com/apis/credentials/serviceaccountkey
-GOOGLE_CREDS = "CHANGE ME"
+
+GOOGLE_CREDS = ""
+
+with open("/etc/snips.toml", 'r') as f:
+    conf = pytoml.load(f)
+    GOOGLE_CREDS = conf["snips-tts"]['google_creds']
+
 
 # Temp folder where the wav files will be stored
 TMP_FOLDER = "/tmp/jarvis/"
@@ -31,7 +38,9 @@ if not os.path.isdir(TMP_FOLDER):
 # check if we have a connection
 def check_internet():
     try:
-        requests.get('https://www.google.com/', timeout=2)
+        r = requests.get('http://clients3.google.com/generate_204', timeout=2)
+        if r.status_code != 204:
+            raise requests.ConnectionError
         print("online")
         return True
     except requests.ConnectionError:
