@@ -6,5 +6,5 @@ TTS for snips using Google Wavenet with a fallback to pico2wave if there is no c
 
 ### In snips.toml
 [snips-tts]  
-customtts = { command = ["[PATH to wavenet_tts.py]", "%%OUTPUT_FILE%%", "%%TEXT%%"] }
+customtts = { command = ["[PATH to wavenet_tts.py]", "%%OUTPUT_FILE%%", "%%TEXT%%"] }  
 google_creds = "Path to the json creds file"
