@@ -82,7 +82,7 @@ def main():
             with open(output, 'wb') as out:
                 out.write(resp)
         else:
-            call(["pico2wave", "-w", output, "-l", lang.replace('_', '-'), text])
+            call(["pico2wave", "-w", output, "-l", LANG.replace('_', '-'), text])
         if not internet and os.path.isfile(TMP_FOLDER + h + '.wav'):
             os.remove(TMP_FOLDER + h + '.wav')
 
