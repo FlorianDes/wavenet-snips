@@ -83,9 +83,8 @@ def main():
                 out.write(resp)
         else:
             call(["pico2wave", "-w", output, "-l", LANG.replace('_', '-'), text])
-        if not internet and os.path.isfile(TMP_FOLDER + h + '.wav'):
-            os.remove(TMP_FOLDER + h + '.wav')
-
+    else:
+        os.popen('cp %s%s.wav %s' % (TMP_FOLDER, h, output))
 
 if __name__ == '__main__':
     main()
